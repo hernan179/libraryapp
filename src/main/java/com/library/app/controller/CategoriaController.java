@@ -54,7 +54,7 @@ public class CategoriaController {
 
         return ResponseEntity.ok(convertToDTO(catogira));
     }
-@DeleteMapping("/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) throws Exception {
     service.delete(id);
 
