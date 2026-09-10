@@ -2,7 +2,7 @@
 Create or extend a simple catalog-style CRUD recourse in this backend
 
 ## Assigned Agent
-Use the `sprng-vrtl-bldr` agent to perfom the implementation.
+Use the `sprng-vrtcl-bldr` agent to perform the implementation.
 
 ## Required Into
 * Resource name in singular form.
@@ -15,7 +15,7 @@ Use the `sprng-vrtl-bldr` agent to perfom the implementation.
 
 1. Validate that all required input has been provided.
 2. Read `CLAUDE.md` to understand the project conventions.
-3. Delegate the implementation to the `spring-vertical-builder` agent.
+3. Delegate the implementation to the `sprng-vrtcl-bldr` agent.
 4. Review the agent's output for completeness.
 5. If compilation or implementation issues are reported, ask the agent to resolve them before continuing.
 6. Verify that the implementation satisfies all acceptance criteria.

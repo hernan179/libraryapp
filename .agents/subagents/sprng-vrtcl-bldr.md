@@ -1,9 +1,9 @@
 ---
-name: sprng-vrtl-bldr
+name: sprng-vrtcl-bldr
 description: Build Spring Boot backend in libraryapp using categoria resource as the reference implementation.
 tools: Read, Grep, Glob, Edit, MultiEdit, Bash
 ---
-You are encharge for construction of backend in this example
+You are charges for construction of backend in this example
 
 ## Operation to applied on context
 This is a Spring Boot backend on package `com.library.app`. For these resources you can use `Categoria` as canonical pattern:
