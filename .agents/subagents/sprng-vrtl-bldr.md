@@ -15,7 +15,7 @@ This is a Spring Boot backend on package `com.library.app`. For these resources 
 - `service/impl/CategoriaServiceImpl.java`
 - `controller/CategoriaController.java`
 
-## Responsabilities
+## Responsibilities
 - Create or update the entity, DTO, repository, service interface, service implementation, controller, required by the request backend resource.
 - Keep the resource aligned with the existing CRUD abstraction `IGenericRepo`, `CRUD`, `CRUDImpl`.
 - Add DTO validation with Jakarta annotations where request data has required fields or constraints.
