@@ -43,12 +43,24 @@ public class MapperConfig {
         return mapper;
     }
 
+    @Bean
     public ModelMapper libroMapper(){
         ModelMapper mapper = new ModelMapper();
         mapper.createTypeMap(Libro.class, LibroDTO.class)
                 .addMapping(Libro::getId, LibroDTO::setId)
+                .addMapping(Libro::getTitulo, LibroDTO::setTitulo)
                 .addMapping(Libro::getIsbn,LibroDTO::setIsbn)
-                .addMapping(Libro::getAutor,LibroDTO::setAutor);
+                .addMapping(Libro::getAutor,LibroDTO::setAutor)
+                .addMapping(Libro::getDisponible, LibroDTO::setDisponible)
+                .addMapping(libro -> libro.getCategoria().getIdCategoria(), LibroDTO::setCategoriaId);
+
+        mapper.createTypeMap(LibroDTO.class, Libro.class)
+                .addMapping(LibroDTO::getId, Libro::setId)
+                .addMapping(LibroDTO::getTitulo, Libro::setTitulo)
+                .addMapping(LibroDTO::getAutor, Libro::setAutor)
+                .addMapping(LibroDTO::getIsbn, Libro::setIsbn)
+                .addMapping(LibroDTO::getDisponible, Libro::setDisponible);
+                //.skip(Libro::setCategoria);
         return mapper;
     }
 }

@@ -18,6 +18,11 @@ public class Libro {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    // CRUDImpl resolves identifiers through the setId<Entity>() convention.
+    public void setIdLibro(Long idLibro) {
+        this.id = idLibro;
+    }
+
     @Column(nullable = false, length = 200)
     private String titulo;
 
