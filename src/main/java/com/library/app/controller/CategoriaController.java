@@ -50,9 +50,9 @@ public class CategoriaController {
     @PutMapping("/{id}")
     public ResponseEntity<CategoriaDTO> update(@PathVariable Long id, @Valid @RequestBody CategoriaDTO dto ) throws  Exception{
 
-        Categoria catogira = service.update(id,convertToEntity(dto));
+        Categoria catogoria = service.update(id,convertToEntity(dto));
 
-        return ResponseEntity.ok(convertToDTO(catogira));
+        return ResponseEntity.ok(convertToDTO(catogoria));
     }
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) throws Exception {
@@ -62,7 +62,8 @@ public class CategoriaController {
     }
 
     private Categoria convertToEntity(CategoriaDTO dto){
-      return categoriaMapper.map(dto,Categoria.class);
+
+        return categoriaMapper.map(dto,Categoria.class);
     }
 
     private CategoriaDTO convertToDTO(Categoria obj){

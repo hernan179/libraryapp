@@ -17,7 +17,7 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class CategoriaDTO {
 
-    private Integer id;
+    private Long id;
 
     @NotNull
     @Size(min = 1, max = 100)
@@ -28,5 +28,5 @@ public class CategoriaDTO {
     @NotNull
     private Boolean estado = true;
 
-    private List<LibroDTO> libros;
+    //private List<LibroDTO> libros;
 }

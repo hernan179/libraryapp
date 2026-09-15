@@ -6,6 +6,7 @@ import com.library.app.dto.LibroDTO;
 import com.library.app.service.ICategoriaService;
 import com.library.app.service.ILibroService;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
@@ -24,21 +25,15 @@ import java.util.List;
 
 @RestController
 @RequestMapping("v1/libros")
+@RequiredArgsConstructor
 public class LibroController {
 
     private final ILibroService service;
     private final ICategoriaService categoriaService;
 
+    //@Qualifier("libroMapper")
     private final ModelMapper libroMapper;
 
-    public LibroController(
-            ILibroService service,
-            ICategoriaService categoriaService,
-            @Qualifier("libroMapper") ModelMapper libroMapper) {
-        this.service = service;
-        this.categoriaService = categoriaService;
-        this.libroMapper = libroMapper;
-    }
 
     @GetMapping
     public ResponseEntity<List<LibroDTO>> findAll() throws Exception {
@@ -53,17 +48,26 @@ public class LibroController {
 
     @PostMapping
     public ResponseEntity<LibroDTO> save(@Valid @RequestBody LibroDTO dto) throws Exception {
-        Libro libro = service.save(convertToEntity(dto));
+
+        System.out.println("GUARDANDO EL NUEVO LIBRO...METODO post: "+dto);
+
+        Libro libroTransformed = convertToEntity(dto);
+
+        System.out.println("GUARDANDO EL NUEVO LIBRO...METODO post_passed: "+libroTransformed);
+
+
+        Libro libro = service.save(libroTransformed);
+
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
-                .buildAndExpand(libro.getId())
+                .buildAndExpand(libro.getIdLibro())
                 .toUri();
-
         return ResponseEntity.created(location).body(convertToDTO(libro));
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<LibroDTO> update(@PathVariable Long id, @Valid @RequestBody LibroDTO dto) throws Exception {
+
         Libro libro = service.update(id, convertToEntity(dto));
         return ResponseEntity.ok(convertToDTO(libro));
     }
@@ -75,8 +79,11 @@ public class LibroController {
     }
 
     private Libro convertToEntity(LibroDTO dto) throws Exception {
+        System.out.println("GUARDANDO EL NUEVO LIBRO.."+dto);
+
+
         Libro libro = libroMapper.map(dto, Libro.class);
-        Categoria categoria = categoriaService.findById(dto.getCategoriaId());
+        Categoria categoria =  Categoria.builder().idCategoria(dto.getCategoria().getId()).build();//categoriaService.findById(dto.getCategoria());
         libro.setCategoria(categoria);
         return libro;
     }

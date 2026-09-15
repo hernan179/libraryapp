@@ -29,16 +29,16 @@ public class MapperConfig {
                 .addMapping(Categoria::getIdCategoria,CategoriaDTO::setId)
                 .addMapping(Categoria::getNombre,CategoriaDTO::setNombre)
                 .addMapping(Categoria::getEstado,CategoriaDTO::setEstado)
-                .addMapping(Categoria::getDescripcion,CategoriaDTO::setDescripcion)
-                .addMapping(Categoria::getLibros,CategoriaDTO::setLibros);
+                .addMapping(Categoria::getDescripcion,CategoriaDTO::setDescripcion);
+              //  .addMapping(Categoria::getLibros,CategoriaDTO::setLibros);
 
         //reader
         mapper.createTypeMap(CategoriaDTO.class, Categoria.class)
                 .addMapping(CategoriaDTO::getId,Categoria::setIdCategoria)
                 .addMapping(CategoriaDTO::getNombre,Categoria::setNombre)
                 .addMapping(CategoriaDTO::getEstado,Categoria::setEstado)
-                .addMapping(CategoriaDTO::getDescripcion,Categoria::setDescripcion)
-                .addMapping(CategoriaDTO::getLibros,Categoria::setLibros);
+                .addMapping(CategoriaDTO::getDescripcion,Categoria::setDescripcion);
+               // .addMapping(CategoriaDTO::getLibros,Categoria::setLibros);
 
         return mapper;
     }
@@ -46,21 +46,24 @@ public class MapperConfig {
     @Bean
     public ModelMapper libroMapper(){
         ModelMapper mapper = new ModelMapper();
-        mapper.createTypeMap(Libro.class, LibroDTO.class)
-                .addMapping(Libro::getId, LibroDTO::setId)
+       /* mapper.createTypeMap(Libro.class, LibroDTO.class)
+                .addMapping(Libro::getIdLibro, LibroDTO::setIdLibro)
                 .addMapping(Libro::getTitulo, LibroDTO::setTitulo)
                 .addMapping(Libro::getIsbn,LibroDTO::setIsbn)
                 .addMapping(Libro::getAutor,LibroDTO::setAutor)
-                .addMapping(Libro::getDisponible, LibroDTO::setDisponible)
-                .addMapping(libro -> libro.getCategoria().getIdCategoria(), LibroDTO::setCategoriaId);
-
+                .addMapping(Libro::getDisponible, LibroDTO::setDisponible);
+              //  .addMapping(libro -> libro.getCategoria(),LibroDTO::setCategoria);
+*/
         mapper.createTypeMap(LibroDTO.class, Libro.class)
-                .addMapping(LibroDTO::getId, Libro::setId)
+                .addMapping(LibroDTO::getIdLibro, Libro::setIdLibro)
                 .addMapping(LibroDTO::getTitulo, Libro::setTitulo)
                 .addMapping(LibroDTO::getAutor, Libro::setAutor)
                 .addMapping(LibroDTO::getIsbn, Libro::setIsbn)
+               // .addMapping(LibroDTO::getCategoria,Libro::setCategoria)
                 .addMapping(LibroDTO::getDisponible, Libro::setDisponible);
-                //.skip(Libro::setCategoria);
+               // .skip(Libro::setCategoria);
+
+
         return mapper;
     }
 }
