@@ -33,6 +33,6 @@ public class Cliente {
     private String email;
 
     @OneToMany(mappedBy = "cliente")
-    @JsonManagedReference
+    //@JsonManagedReference
     private List<Reserva> reservas;
 }

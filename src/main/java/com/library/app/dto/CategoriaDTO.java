@@ -1,6 +1,8 @@
 package com.library.app.dto;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -27,6 +29,6 @@ public class CategoriaDTO {
 
     @NotNull
     private Boolean estado = true;
-
-    //private List<LibroDTO> libros;
+    @JsonBackReference
+    private List<LibroDTO> libros;
 }

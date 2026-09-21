@@ -2,12 +2,14 @@ package com.library.app.controller;
 
 import com.library.app.domain.Categoria;
 import com.library.app.domain.Libro;
+import com.library.app.dto.CategoriaDTO;
 import com.library.app.dto.LibroDTO;
 import com.library.app.service.ICategoriaService;
 import com.library.app.service.ILibroService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeMap;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Primary;
 import org.springframework.http.ResponseEntity;
@@ -30,10 +32,7 @@ import java.util.List;
 public class LibroController {
 
     private final ILibroService service;
-
-    //@Qualifier("libroMapper")
-    private final ModelMapper libroMapper;
-
+  //  private final ModelMapper categoriaMapper;
 
     @GetMapping
     public ResponseEntity<List<LibroDTO>> findAll() throws Exception {
@@ -44,6 +43,13 @@ public class LibroController {
     @GetMapping("/{id}")
     public ResponseEntity<LibroDTO> findById(@PathVariable Long id) throws Exception {
         return ResponseEntity.ok(convertToDTO(service.findById(id)));
+    }
+
+    @GetMapping("/id/{id}")
+    public ResponseEntity<LibroDTO> findByIdId(@PathVariable Long id) throws Exception {
+
+        LibroDTO dto = convertToDTO(service.findById(id));
+        return ResponseEntity.ok(dto);
     }
 
     @PostMapping
@@ -82,13 +88,23 @@ public class LibroController {
         System.out.println("GUARDANDO EL NUEVO LIBRO.."+dto);
 
 
-        Libro libro = libroMapper.map(dto, Libro.class);
+        Libro libro = new ModelMapper().map(dto, Libro.class);
         Categoria categoria =  Categoria.builder().idCategoria(dto.getCategoria().getId()).build();
         libro.setCategoria(categoria);
         return libro;
     }
 
     private LibroDTO convertToDTO(Libro libro) {
-        return libroMapper.map(libro, LibroDTO.class);
+
+        TypeMap<Libro,LibroDTO> propertyMapper = new ModelMapper().createTypeMap(Libro.class, LibroDTO.class);
+     //   Categoria ct = libro.getCategoria();
+
+
+    //    propertyMapper.addMapping(Categoria::ct);
+
+  //     return  libroMapper.map(libro,LibroDTO.class);
+
+
+        return propertyMapper.map(libro);
     }
 }

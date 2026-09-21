@@ -1,6 +1,7 @@
 package com.library.app.dto;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.library.app.domain.Categoria;
 import jakarta.validation.constraints.NotBlank;
@@ -36,5 +37,6 @@ public class LibroDTO {
     private Boolean disponible = true;
 
     @NotNull
+    //@JsonBackReference
     private CategoriaDTO categoria;
 }

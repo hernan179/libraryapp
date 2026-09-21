@@ -25,7 +25,7 @@ public class Reserva {
     private LocalDateTime fechaReserva;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JsonBackReference
+    //@JsonBackReference
     @JoinColumn(name = "cliente_id", nullable = false)
     private Cliente cliente;
 

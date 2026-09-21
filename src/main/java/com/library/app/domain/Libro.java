@@ -1,5 +1,6 @@
 package com.library.app.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -30,8 +31,9 @@ public class Libro {
     @Column(nullable = false)
     private Boolean disponible = true;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "categoria_id", nullable = false)
+    //@JsonBackReference
     private Categoria categoria;
 
     @OneToMany(mappedBy = "libro")

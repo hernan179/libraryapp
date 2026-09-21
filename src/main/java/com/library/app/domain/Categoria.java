@@ -1,6 +1,7 @@
 
 package com.library.app.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -34,5 +35,6 @@ public class Categoria{
     private Boolean estado = true;
 
     @OneToMany(mappedBy = "categoria")
+    @JsonBackReference// pare eviatar el llamado recurrente
     private List<Libro> libros;
 }

@@ -22,7 +22,7 @@ public class CategoriaController {
     private final ICategoriaService service;
 
     //@Qualifier("categoriaMapper")
-    private final ModelMapper categoriaMapper;
+  //  private final ModelMapper categoriaMapper;
 
     @GetMapping
     public ResponseEntity<List<CategoriaDTO>> findAll() throws Exception{
@@ -65,10 +65,10 @@ public class CategoriaController {
 
     private Categoria convertToEntity(CategoriaDTO dto){
 
-        return categoriaMapper.map(dto,Categoria.class);
+        return  new ModelMapper().map(dto,Categoria.class);
     }
 
     private CategoriaDTO convertToDTO(Categoria obj){
-        return categoriaMapper.map(obj,CategoriaDTO.class);
+        return  new ModelMapper().map(obj,CategoriaDTO.class);
     }
 }

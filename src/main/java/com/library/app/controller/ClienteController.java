@@ -18,7 +18,7 @@ public class ClienteController{
 
     private final IClienteService service;
 
-    private final ModelMapper clienteMapper;
+    //private final ModelMapper clienteMapper;
 
      @GetMapping
     public ResponseEntity<List<ClienteDTO>> findAll() throws Exception{
@@ -67,10 +67,10 @@ public class ClienteController{
 
     private Cliente convertToEntity(ClienteDTO dto){
 
-        return clienteMapper.map(dto,Cliente.class);
+        return  new ModelMapper().map(dto,Cliente.class);
     }
 
     private ClienteDTO convertToDTO(Cliente obj){
-        return clienteMapper.map(obj,ClienteDTO.class);
+        return  new ModelMapper().map(obj,ClienteDTO.class);
     }
 }
