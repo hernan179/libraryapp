@@ -1,0 +1,73 @@
+package com.library.app.controller;
+
+
+import com.library.app.domain.Cliente;
+import com.library.app.dto.ClienteDTO;
+import com.library.app.service.IClienteService;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequiredArgsConstructor
+@RequestMapping("v1/clientes")
+public class ClienteController {
+
+    private final IClienteService service;
+
+    //@Qualifier("clienteMapper")
+    private final ModelMapper clienteMapper;
+
+    @GetMapping
+    public ResponseEntity<List<ClienteDTO>> findAll() throws Exception{
+
+     List<ClienteDTO> list = service.findAll().stream().map(this::convertToDTO).toList();
+     return ResponseEntity.ok(list);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ClienteDTO> findById(@PathVariable Long id) throws Exception{
+        ClienteDTO obj = convertToDTO(service.findById(id));
+
+        return ResponseEntity.ok(obj);
+    }
+
+    @PostMapping
+    public ResponseEntity<ClienteDTO> save(@Valid @RequestBody ClienteDTO dto) throws  Exception{
+        System.out.println("saving...");
+        Cliente cliente = convertToEntity(dto);
+
+        Cliente clienteDb = service.save(cliente);
+        ClienteDTO catDTO = convertToDTO(clienteDb);
+
+        return new ResponseEntity<>(catDTO, HttpStatus.CREATED);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<ClienteDTO> update(@PathVariable Long id, @Valid @RequestBody ClienteDTO dto ) throws  Exception{
+
+        Cliente cliente = service.update(id,convertToEntity(dto));
+
+        return ResponseEntity.ok(convertToDTO(cliente));
+    }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) throws Exception {
+    service.delete(id);
+
+    return ResponseEntity.noContent().build();
+    }
+
+    private Cliente convertToEntity(ClienteDTO dto){
+
+        return clienteMapper.map(dto,Cliente.class);
+    }
+
+    private ClienteDTO convertToDTO(Cliente obj){
+        return clienteMapper.map(obj,ClienteDTO.class);
+    }
+}

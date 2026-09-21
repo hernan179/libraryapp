@@ -2,8 +2,10 @@ package com.library.app.config;
 
 
 import com.library.app.domain.Categoria;
+import com.library.app.domain.Cliente;
 import com.library.app.domain.Libro;
 import com.library.app.dto.CategoriaDTO;
+import com.library.app.dto.ClienteDTO;
 import com.library.app.dto.LibroDTO;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
@@ -11,12 +13,9 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class MapperConfig {
-
-
-
-
     @Bean
     public ModelMapper modelMapper(){
+
         return new ModelMapper();
     }
 
@@ -64,6 +63,13 @@ public class MapperConfig {
                // .skip(Libro::setCategoria);
 
 
+        return mapper;
+    }
+  @Bean
+  public ModelMapper clienteMapper(){
+        ModelMapper mapper = new ModelMapper();
+        mapper.createTypeMap(Cliente.class, ClienteDTO.class)
+                .addMapping(Cliente::getId,ClienteDTO::setId);
         return mapper;
     }
 }

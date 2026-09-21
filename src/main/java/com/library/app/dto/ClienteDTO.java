@@ -1,23 +1,21 @@
-package com.library.app.domain;
+package com.library.app.dto;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.library.app.domain.Reserva;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.List;
 
-@Entity
-@Table(name = "cliente")
-@Getter
-@Setter
-@NoArgsConstructor
+@Data
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder
-public class Cliente {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class ClienteDTO {
+
     private Long id;
 
     @Column(nullable = false, length = 100)
@@ -32,7 +30,7 @@ public class Cliente {
     @Column(nullable = false, unique = true, length = 150)
     private String email;
 
-    @OneToMany(mappedBy = "cliente")
     @JsonManagedReference
-    private List<Reserva> reservas;
+    private List<ReservaDTO> reservas;
+
 }

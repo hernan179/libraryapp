@@ -1,5 +1,7 @@
 package com.library.app.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -23,6 +25,7 @@ public class Reserva {
     private LocalDateTime fechaReserva;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JsonBackReference
     @JoinColumn(name = "cliente_id", nullable = false)
     private Cliente cliente;
 
@@ -31,6 +34,7 @@ public class Reserva {
         cascade = CascadeType.ALL,
         orphanRemoval = true
     )
+    @JsonManagedReference
     private List<DetalleReserva> detallesReserva;
 
     @PrePersist

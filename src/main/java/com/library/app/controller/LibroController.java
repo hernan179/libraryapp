@@ -9,6 +9,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Primary;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,7 +30,6 @@ import java.util.List;
 public class LibroController {
 
     private final ILibroService service;
-    private final ICategoriaService categoriaService;
 
     //@Qualifier("libroMapper")
     private final ModelMapper libroMapper;
@@ -83,7 +83,7 @@ public class LibroController {
 
 
         Libro libro = libroMapper.map(dto, Libro.class);
-        Categoria categoria =  Categoria.builder().idCategoria(dto.getCategoria().getId()).build();//categoriaService.findById(dto.getCategoria());
+        Categoria categoria =  Categoria.builder().idCategoria(dto.getCategoria().getId()).build();
         libro.setCategoria(categoria);
         return libro;
     }
