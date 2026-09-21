@@ -5,6 +5,7 @@ import com.library.app.dto.ClienteDTO;
 import com.library.app.service.IClienteService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.apache.catalina.mapper.Mapper;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -48,14 +49,13 @@ public class ClienteController{
     Cliente cliente = service.save(convertToEntity(dto));
 
     return ResponseEntity.ok(convertToDTO(cliente));
-
 }
 
-    @PutMapping
-    public ResponseEntity<ClienteDTO>  update(@PathVariable Long id,@Valid @RequestBody ClienteDTO dto) throws Exception{
-        Cliente cliente = service.update(id,convertToEntity(dto));
-
-        return ResponseEntity.ok(convertToDTO(cliente));
+    @PutMapping("/{id}")
+    public ResponseEntity<ClienteDTO>  update(@PathVariable Long id,@RequestBody ClienteDTO dto) throws Exception{
+        Cliente cliente = convertToEntity(dto);
+        Cliente clienteDb = service.update(id,cliente);
+        return ResponseEntity.ok(convertToDTO(clienteDb));
 
     }
     @DeleteMapping("/{id}")
@@ -63,7 +63,6 @@ public class ClienteController{
         service.delete(id);
         return ResponseEntity.noContent().build();
     }
-
 
     private Cliente convertToEntity(ClienteDTO dto){
 

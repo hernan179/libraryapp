@@ -16,7 +16,7 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ClienteDTO {
 
-    private Long id;
+    private Long idCliente;
 
     @Column(nullable = false, length = 100)
     private String nombres;
