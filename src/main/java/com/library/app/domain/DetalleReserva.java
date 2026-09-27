@@ -5,34 +5,43 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
-@Entity
-@Table(
-    name = "detalle_reserva",
-    uniqueConstraints = {
-        @UniqueConstraint(
-            name = "uk_detalle_reserva_libro",
-            columnNames = {"reserva_id", "libro_id"}
-        )
-    }
-)
-@Getter
-@Setter
+import java.time.LocalDateTime;
+
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Builder
+@Entity
+
+
+@Table(name = "detalle_reserva")
 public class DetalleReserva {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long idDetalleReserva;
 
-    @JsonBackReference
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "reserva_id", nullable = false)
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_reserva", nullable = false)
+    //@JsonBackReference
+    //@JsonManagedReference
     private Reserva reserva;
 
-    @JsonBackReference
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "libro_id", nullable = false)
-    private Libro libro;
+    @Column(name = "fecha_evento", nullable = false)
+    private LocalDateTime fechaEvento;
+
+    @Column(name = "fecha_entrega")
+    private LocalDateTime fechaEntrega;
+
+    @Column(name = "actualizacion")
+    private LocalDateTime actualizacion;
+
+    @Column(name = "detalle")
+    private String detalle;
+
+   // @ManyToOne(fetch = FetchType.LAZY)
+   // @JoinColumn(name = "id_estado",nullable = false)
+   // private Estado estado;
 }

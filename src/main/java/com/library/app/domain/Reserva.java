@@ -1,46 +1,46 @@
 package com.library.app.domain;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Entity
-@Table(name = "reserva")
-@Getter
-@Setter
+
+
+@Builder
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
+@Entity
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@Table(name = "reserva")
 public class Reserva {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long idReserva;
 
     @Column(name = "fecha_reserva", nullable = false)
     private LocalDateTime fechaReserva;
 
+    @Column(name = "fecha_devolucion")
+    private LocalDateTime fechaDevolucion;
+
     @ManyToOne(fetch = FetchType.LAZY)
-    //@JsonBackReference
-    @JoinColumn(name = "cliente_id", nullable = false)
+    @JoinColumn(name = "id_cliente", nullable = false)
     private Cliente cliente;
 
-    @OneToMany(
-        mappedBy = "reserva",
-        cascade = CascadeType.ALL,
-        orphanRemoval = true
-    )
-    @JsonManagedReference
-    private List<DetalleReserva> detallesReserva;
+    @OneToMany(mappedBy = "reserva",fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+    private List<DetalleReserva> detalleReserva;
 
-    @PrePersist
-    protected void onCreate() {
-        if (fechaReserva == null) {
-            fechaReserva = LocalDateTime.now();
-        }
-    }
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_estado",nullable = false)
+    private Estado estado;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_libro",nullable = false)
+    private Libro libro;
+
 }

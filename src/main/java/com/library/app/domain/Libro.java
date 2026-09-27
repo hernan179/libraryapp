@@ -7,12 +7,13 @@ import lombok.*;
 import java.util.List;
 
 @Entity
-@Table(name = "libro")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@Table(name = "libro")
 public class Libro {
 
     @Id
@@ -32,10 +33,10 @@ public class Libro {
     private Boolean disponible = true;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "categoria_id", nullable = false)
+    @JoinColumn(name = "id_categoria", nullable = false)
     //@JsonBackReference
     private Categoria categoria;
 
     @OneToMany(mappedBy = "libro")
-    private List<DetalleReserva> detallesReserva;
+    private List<Reserva> reserva;
 }

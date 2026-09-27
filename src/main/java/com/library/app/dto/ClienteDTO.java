@@ -1,5 +1,6 @@
 package com.library.app.dto;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.library.app.domain.Reserva;
@@ -30,7 +31,9 @@ public class ClienteDTO {
     @Column(nullable = false, unique = true, length = 150)
     private String email;
 
-    @JsonManagedReference
+
+    //@JsonManagedReference
+    @JsonBackReference
     private List<ReservaDTO> reservas;
 
 }

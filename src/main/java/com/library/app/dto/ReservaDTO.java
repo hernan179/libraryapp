@@ -1,10 +1,14 @@
 package com.library.app.dto;
 
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import jakarta.persistence.Column;
+import com.fasterxml.jackson.annotation.*;
+
+import com.library.app.domain.Cliente;
+import com.library.app.domain.DetalleReserva;
+import com.library.app.domain.Estado;
+import com.library.app.domain.Libro;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,6 +16,7 @@ import lombok.NoArgsConstructor;
 
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -20,11 +25,21 @@ import java.time.LocalDateTime;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ReservaDTO {
 
-    private Long id;
+    private Long idReserva;
 
-    @Column(name = "fecha_reserva", nullable = false)
+    @NotNull
     private LocalDateTime fechaReserva;
 
-    @JsonBackReference
+    private LocalDateTime fechaDevolucion;
+
+    @NotNull
     private ClienteDTO cliente;
+
+    private List<DetalleReservaDTO> detalleReserva;
+
+    @NotNull
+    private EstadoDTO estado;
+    @NotNull
+    private LibroDTO libro;
+
 }

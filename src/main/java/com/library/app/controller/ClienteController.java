@@ -53,6 +53,8 @@ public class ClienteController{
 
     @PutMapping("/{id}")
     public ResponseEntity<ClienteDTO>  update(@PathVariable Long id,@RequestBody ClienteDTO dto) throws Exception{
+        System.out.println("Updating id cliente: "+id);
+
         Cliente cliente = convertToEntity(dto);
         Cliente clienteDb = service.update(id,cliente);
         return ResponseEntity.ok(convertToDTO(clienteDb));
