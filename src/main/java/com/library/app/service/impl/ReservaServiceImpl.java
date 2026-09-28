@@ -1,11 +1,12 @@
 package com.library.app.service.impl;
 
+import com.library.app.domain.Cliente;
 import com.library.app.domain.DetalleReserva;
 import com.library.app.domain.Reserva;
 import com.library.app.dto.EstadosEnum;
 import com.library.app.repo.IGenericRepo;
 import com.library.app.repo.IReservaRepo;
-import com.library.app.service.IDetalleReservaCustom;
+import com.library.app.service.IReservaCustom;
 import com.library.app.service.IReservaService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,7 +20,7 @@ public class ReservaServiceImpl extends CRUDImpl<Reserva, Long> implements IRese
 
     private final IReservaRepo repo;
 
-    private final IDetalleReservaCustom iDetalleReservaCustom;
+    private final IReservaCustom iReservaCustom;
 
     @Override
     protected IGenericRepo<Reserva, Long> getRepo() {
@@ -36,7 +37,7 @@ public class ReservaServiceImpl extends CRUDImpl<Reserva, Long> implements IRese
                                 .detalle("Sin cambios")
                                 .fechaEvento(LocalDateTime.now())
                                 .build();
-                        iDetalleReservaCustom.save(dr);
+                        iReservaCustom.save(dr);
                     } catch (Exception e) {
                         e.printStackTrace();
                         throw new RuntimeException(e);
@@ -45,16 +46,22 @@ public class ReservaServiceImpl extends CRUDImpl<Reserva, Long> implements IRese
         );
     }
 
+    @Override
+    public List<Reserva> reservadelcliente(Cliente cliente) {
+
+        return iReservaCustom.findByCliente(cliente);
+    }
+
     public void actualizar(Reserva reserva){
         try {
-            List<DetalleReserva> detalleReserva = iDetalleReservaCustom.findByReserva(reserva);
+            List<DetalleReserva> detalleReserva = iReservaCustom.findByReserva(reserva);
             detalleReserva.forEach(a -> {
                 if(reserva.getEstado().getNombre().equals(EstadosEnum.DEVUELTO.toString())){
                     a.setFechaEntrega(LocalDateTime.now());
                 }
                 a.setActualizacion(LocalDateTime.now());
                 a.setDetalle("Fue actualizaado");
-                iDetalleReservaCustom.save(a);
+                iReservaCustom.save(a);
             });
         } catch (RuntimeException e) {
             System.out.println("error: " + e.getMessage());

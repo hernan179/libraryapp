@@ -1,19 +1,15 @@
 package com.library.app.controller;
 
-import com.library.app.domain.DetalleReserva;
+import com.library.app.domain.Cliente;
 import com.library.app.domain.Reserva;
-import com.library.app.dto.EstadosEnum;
 import com.library.app.dto.ReservaDTO;
-import com.library.app.service.IDetalleReservaCustom;
 import com.library.app.service.IDetalleReservaService;
 import com.library.app.service.ILibroService;
 import com.library.app.service.IReservaService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.cglib.core.Local;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,7 +21,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
-import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @RestController
@@ -50,6 +47,22 @@ public class ReservaController {
         return ResponseEntity.ok(convertToDTO(service.findById(id)));
     }
 
+    @GetMapping("/seachr/{cliente}")
+    public ResponseEntity<List<ReservaDTO>> findByCliente(@PathVariable Long cliente) throws Exception {
+
+        Cliente clienteDb = Cliente.builder().idCliente(cliente).build();
+
+        List<Reserva> lstReserva = service.reservadelcliente(clienteDb);
+
+        List<ReservaDTO> lstDTO  = new ArrayList<>();
+
+        for (Reserva rs : lstReserva) {
+            ReservaDTO rsDTO = convertToDTO(rs);
+            lstDTO.add(rsDTO);
+        }
+        return ResponseEntity.ok(lstDTO);
+    }
+
     @PostMapping
     public ResponseEntity<ReservaDTO> save(@Valid @RequestBody ReservaDTO dto) throws Exception {
 
@@ -71,7 +84,7 @@ public class ReservaController {
             throws Exception {
 
         Reserva rsv = convertToEntity(dto);
-        Reserva  reserva = service.update(id, rsv);
+        Reserva reserva = service.update(id, rsv);
 
         service.actualizar(reserva);
 
@@ -81,7 +94,6 @@ public class ReservaController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) throws Exception {
         service.delete(id);
-
         return ResponseEntity.noContent().build();
     }
 
